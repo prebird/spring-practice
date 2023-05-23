@@ -11,12 +11,12 @@ public class AppConfig {
         return new MyServiceImpl();
     }
 
-    @Bean
+    @Bean(initMethod = "init", destroyMethod = "destroy")
     public BeanOne beanOne() {
         return new BeanOne();
     }
 
-    @Bean
+    @Bean(initMethod = "init")
     public BeanTwo beanTwo() {
         return new BeanTwo(beanOne());
     }

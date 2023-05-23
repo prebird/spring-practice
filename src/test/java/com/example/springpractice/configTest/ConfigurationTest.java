@@ -9,6 +9,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.util.Arrays;
@@ -39,5 +40,14 @@ public class ConfigurationTest {
         BeanTwo beanTwo = context.getBean(BeanTwo.class);
 
         assertThat(beanTwo).isNotNull();
+    }
+
+    @Test
+    @DisplayName("자바 Configuration 으로 초기화, 소멸 콜백 등록")
+    void initAndDestroyCallbackByJavaConfiguration() {
+        ConfigurableApplicationContext context = new AnnotationConfigApplicationContext(SpringPracticeApplication.class);
+        BeanTwo beanTwo = context.getBean(BeanTwo.class);
+
+        context.close();
     }
 }
