@@ -10,4 +10,14 @@ public class AppConfig {
     public MyServiceImpl myService() {
         return new MyServiceImpl();
     }
+
+    @Bean
+    public BeanOne beanOne() {
+        return new BeanOne();
+    }
+
+    @Bean
+    public BeanTwo beanTwo() {
+        return new BeanTwo(beanOne());
+    }
 }
