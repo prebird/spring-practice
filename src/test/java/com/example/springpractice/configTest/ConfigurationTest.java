@@ -2,6 +2,7 @@ package com.example.springpractice.configTest;
 
 import com.example.springpractice.SpringPracticeApplication;
 import com.example.springpractice.config.BeanTwo;
+import com.example.springpractice.config.Encryptor;
 import com.example.springpractice.config.MyServiceImpl;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -49,5 +50,18 @@ public class ConfigurationTest {
         BeanTwo beanTwo = context.getBean(BeanTwo.class);
 
         context.close();
+    }
+
+    @Test
+    @DisplayName("자바 Configuration 으로 프로토타입 스코프 빈을 등록합니다.")
+    void prototypeBeanByJavaConfiguration() {
+        ApplicationContext context = new AnnotationConfigApplicationContext(SpringPracticeApplication.class);
+
+        Encryptor encryptor = context.getBean(Encryptor.class);
+        Encryptor encryptor2 = context.getBean(Encryptor.class);
+
+        System.out.println(encryptor);
+        System.out.println(encryptor2);
+        assertThat(encryptor).isNotEqualTo(encryptor2);
     }
 }
