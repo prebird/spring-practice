@@ -11,7 +11,7 @@ import org.springframework.core.env.Environment;
 import javax.sql.DataSource;
 
 @Configuration
-@PropertySource("classpath:/application.properties")
+@PropertySource("classpath:/application-prod.properties")
 public class DataSourceConfig {
 
     @Autowired
