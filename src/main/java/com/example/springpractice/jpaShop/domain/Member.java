@@ -1,5 +1,6 @@
 package com.example.springpractice.jpaShop.domain;
 
+import com.example.springpractice.jpaShop.domain.enums.RoleType;
 import lombok.Getter;
 
 import javax.persistence.*;
