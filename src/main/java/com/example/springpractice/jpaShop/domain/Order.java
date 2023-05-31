@@ -6,7 +6,8 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-public class Orders {
+@Table(name="ORDERS")
+public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

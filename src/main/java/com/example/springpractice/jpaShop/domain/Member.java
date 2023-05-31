@@ -4,7 +4,9 @@ import com.example.springpractice.jpaShop.domain.enums.RoleType;
 import lombok.Getter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Entity
@@ -23,6 +25,9 @@ public class Member {
     @Column(name = "ROLE_TYPE")
     @Enumerated(EnumType.STRING)
     private RoleType roleType;
+
+    @OneToMany(mappedBy = "member")
+    private List<Order> orders = new ArrayList<>();
 
     @Column(name = "CREATED_DATE")
     @Temporal(TemporalType.TIMESTAMP)
