@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -21,8 +21,18 @@ public class ClassRoom {
 
     private String name;
 
-    @OneToMany(mappedBy = "class")
-    private List<Student> students;
+    @Builder.Default
+    @OneToMany()
+    @JoinColumn(name = "class_id")
+    private List<Student> students = new ArrayList<>();
+
+    public void setStudents(List<Student> students) {
+        this.students = students;
+    }
+
+    public void addStudent(Student student) {
+        students.add(student);
+    }
 
     public static ClassRoom of(String name) {
         return ClassRoom.builder()

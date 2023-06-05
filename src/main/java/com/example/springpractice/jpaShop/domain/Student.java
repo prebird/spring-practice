@@ -19,11 +19,16 @@ public class Student {
     private String name;
 
     @ManyToOne
+    @JoinColumn(name = "class_id", insertable = false, updatable = false)
     private ClassRoom classRoom;
 
     public static Student of(String name) {
         return Student.builder()
                 .name(name)
                 .build();
+    }
+
+    public void setClassRoom(ClassRoom classRoom) {
+        this.classRoom = classRoom;
     }
 }
