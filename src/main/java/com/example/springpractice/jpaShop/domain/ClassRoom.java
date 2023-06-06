@@ -1,9 +1,6 @@
 package com.example.springpractice.jpaShop.domain;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -14,9 +11,11 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
+@Getter @Setter
+@ToString(of = {"id", "name"})
 public class ClassRoom {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     private Long id;
 
     private String name;
@@ -25,10 +24,6 @@ public class ClassRoom {
     @OneToMany()
     @JoinColumn(name = "class_id")
     private List<Student> students = new ArrayList<>();
-
-    public void setStudents(List<Student> students) {
-        this.students = students;
-    }
 
     public void addStudent(Student student) {
         students.add(student);
