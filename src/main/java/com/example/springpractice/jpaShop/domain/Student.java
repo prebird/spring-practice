@@ -14,9 +14,11 @@ import javax.persistence.*;
 public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
 
     private String name;
+
+    private Integer age;
 
     @ManyToOne
     @JoinColumn(name = "class_id", insertable = false, updatable = false)
