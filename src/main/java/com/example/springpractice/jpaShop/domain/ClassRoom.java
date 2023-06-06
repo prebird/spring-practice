@@ -21,8 +21,7 @@ public class ClassRoom {
     private String name;
 
     @Builder.Default
-    @OneToMany()
-    @JoinColumn(name = "class_id")
+    @OneToMany(mappedBy = "classRoom")
     private List<Student> students = new ArrayList<>();
 
     public void addStudent(Student student) {
