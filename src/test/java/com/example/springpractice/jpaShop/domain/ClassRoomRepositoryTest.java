@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+import java.util.List;
+
 import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.*;
 
 @DataJpaTest
@@ -18,6 +20,9 @@ class ClassRoomRepositoryTest {
 
         ClassRoom javaClass = ClassRoom.of("자바반");
         classRoomRepository.save(javaClass);
+
+        List<ClassRoom> classes = classRoomRepository.findAll();
+        System.out.println(classes);
     }
 
 }
