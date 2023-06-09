@@ -2,6 +2,8 @@ package com.example.springpractice.security;
 
 import com.example.springpractice.security.member.Member;
 import com.example.springpractice.security.member.Role;
+import lombok.Builder;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,16 +12,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+@RequiredArgsConstructor
+@Builder
 public class MemberDetails implements UserDetails {
     private final String username;
     private final String password;
     private final Role role;
-
-    public MemberDetails(Member member) {
-        this.username = member.getUsername();
-        this.password = member.getPassword();
-        this.role = member.getRole();
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
