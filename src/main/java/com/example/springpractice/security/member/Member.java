@@ -1,7 +1,13 @@
 package com.example.springpractice.security.member;
 
+import lombok.*;
+
 import javax.persistence.*;
 
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder
 @Entity
 public class Member {
     @Id
