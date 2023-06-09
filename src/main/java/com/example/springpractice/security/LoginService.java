@@ -1,7 +1,9 @@
 package com.example.springpractice.security;
 
 import com.example.springpractice.security.member.Member;
+import com.example.springpractice.security.member.MemberDto;
 import com.example.springpractice.security.member.MemberRepository;
+import com.example.springpractice.security.member.RequestMemberJoin;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -23,8 +25,17 @@ public class LoginService implements UserDetailsService {
 
         return MemberDetails.builder()
                 .username(member.getUsername())
-                .password(passwordEncoder.encode(member.getPassword()))
+                .password(member.getPassword())
                 .role(member.getRole())
                 .build();
+    }
+
+    public MemberDto join(RequestMemberJoin request) {
+        return MemberDto.from(
+                memberRepository.save(Member.builder()
+                .username(request.getUsername())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .role(request.getRole())
+                .build()));
     }
 }
