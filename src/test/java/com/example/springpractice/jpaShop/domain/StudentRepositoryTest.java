@@ -28,8 +28,8 @@ class StudentRepositoryTest {
     Student jiyu;
 
     @BeforeEach
-    @Transactional
     void initData() {
+        // 학생
         jinju = Student.of("김진주", 10);
         jinju2 = Student.of("김진주", 20);
         jiyu = Student.of("김지유", 20);
@@ -38,17 +38,33 @@ class StudentRepositoryTest {
         studentRepository.save(jinju2);
         studentRepository.save(jiyu);
 
+        // 반
         ClassRoom java = ClassRoom.of("자바반");
         ClassRoom design = ClassRoom.of("디자인반");
         classRoomRepository.save(java);
         classRoomRepository.save(design);
 
+        // 학생에 반 정보 매핑
         jinju.setClassRoom(java);
         jinju2.setClassRoom(design);
         jiyu.setClassRoom(java);
 
         students = List.of(jinju, jinju2, jiyu);
     }
+
+    @Test
+    @DisplayName("JPQL 로 엔티티 조회")
+    void getEntity() {
+        String name = "김진주";
+        int age = 10;
+
+        List<Student> list = studentRepository.findStudentCustom(name, age);
+
+        assertThat(list).hasSize(1);
+        assertThat(list.get(0)).usingRecursiveComparison()
+                .isEqualTo(jinju);
+    }
+
 
     @Test
     @DisplayName("값 타입 조회")
