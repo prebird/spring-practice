@@ -5,7 +5,6 @@ import com.example.springpractice.security.member.RequestMemberJoin;
 import com.example.springpractice.security.member.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationListener;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
@@ -24,17 +23,17 @@ public class InitData implements ApplicationListener<ContextRefreshedEvent> {
         RequestMemberJoin user = RequestMemberJoin.builder()
                 .username("user")
                 .password("12")
-                .role(Role.USER).build();
+                .role(Role.ROLE_USER).build();
 
         RequestMemberJoin manager = RequestMemberJoin.builder()
                 .username("manager")
                 .password("12")
-                .role(Role.MANAGER).build();
+                .role(Role.ROLE_MANAGER).build();
 
         RequestMemberJoin partner = RequestMemberJoin.builder()
                 .username("partner")
                 .password("12")
-                .role(Role.PARTNER).build();
+                .role(Role.ROLE_PARTNER).build();
 
         loginService.join(user);
         loginService.join(manager);

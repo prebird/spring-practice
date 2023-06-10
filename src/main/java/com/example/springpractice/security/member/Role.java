@@ -1,5 +1,5 @@
 package com.example.springpractice.security.member;
 
 public enum Role {
-    USER, PARTNER, MANAGER;
+    ROLE_USER, ROLE_PARTNER, ROLE_MANAGER;
 }
