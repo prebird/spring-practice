@@ -1,4 +1,4 @@
-package com.example.springpractice.security;
+package com.example.springpractice.security.auth;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

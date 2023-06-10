@@ -1,6 +1,6 @@
 package com.example.springpractice.security.config;
 
-import com.example.springpractice.security.AuthService;
+import com.example.springpractice.security.auth.AuthService;
 import com.example.springpractice.security.member.RequestMemberJoin;
 import com.example.springpractice.security.member.Role;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package com.example.springpractice.security;
+package com.example.springpractice.security.auth;
 
 import com.example.springpractice.security.member.Member;
 import com.example.springpractice.security.member.MemberDto;
