@@ -1,6 +1,6 @@
 package com.example.springpractice.security.config;
 
-import com.example.springpractice.security.LoginService;
+import com.example.springpractice.security.AuthService;
 import com.example.springpractice.security.member.RequestMemberJoin;
 import com.example.springpractice.security.member.Role;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class InitData implements ApplicationListener<ContextRefreshedEvent> {
 
-    private final LoginService loginService;
+    private final AuthService authService;
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
@@ -35,8 +35,8 @@ public class InitData implements ApplicationListener<ContextRefreshedEvent> {
                 .password("12")
                 .role(Role.ROLE_PARTNER).build();
 
-        loginService.join(user);
-        loginService.join(manager);
-        loginService.join(partner);
+        authService.join(user);
+        authService.join(manager);
+        authService.join(partner);
     }
 }
