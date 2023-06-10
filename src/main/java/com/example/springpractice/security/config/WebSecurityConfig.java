@@ -19,8 +19,8 @@ public class WebSecurityConfig {
         log.info("-------securityFilterChain-------");
         http.authorizeRequests()
                 .antMatchers("/").permitAll()
-                .antMatchers("/mamegers/**").hasRole("MANAGER")
-                .antMatchers("/partners/**").hasRole("partners")
+                .antMatchers("/managers/**").hasRole("MANAGER")
+                .antMatchers("/partners/**").hasRole("PARTNER")
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic();
