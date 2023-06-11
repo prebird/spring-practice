@@ -19,8 +19,8 @@ public class StudentService {
     private final StudentRepository studentRepository;
     private final ClassRoomRepository classRoomRepository;
 
-    public List<StudentDto> getAll() {
-        return studentRepository.findAll().stream().map(StudentDto::from).collect(Collectors.toList());
+    public Page<StudentDto> getAll(Pageable pageable) {
+        return studentRepository.findAll(pageable).map(StudentDto::from);
     }
 
     public Page<StudentDto> getByAge(Integer age, Optional<Integer> pageOptional, Optional<Direction> sortTypeOptional) {
