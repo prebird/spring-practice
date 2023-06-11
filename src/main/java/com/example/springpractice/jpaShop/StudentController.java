@@ -5,6 +5,7 @@ import com.example.springpractice.jpaShop.domain.StudentService;
 import com.example.springpractice.jpaShop.dto.UpdateIdListRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
@@ -21,21 +22,21 @@ public class StudentController {
 
     private final StudentService studentService;
 
-    @GetMapping("/all")
+    @GetMapping
     public ResponseEntity<List<StudentDto>> searchAll() {
         return ResponseEntity.ok(studentService.getAll());
     }
 
     /**
      * 나이로 학생 조회, Page, Sort 기능 반영
-     * http://localhost:8080/students?age=10&page=1&sortType=DESC
+     * http://localhost:8080/students/byAge?age=10&page=1&sortType=DESC
      * page, sorType nullable
      * @param age
      * @param page
      * @param sortType
      * @return
      */
-    @GetMapping
+    @GetMapping("/byAge")
     public ResponseEntity<Page<StudentDto>> searchByAge(
             @RequestParam Integer age,
             @RequestParam Optional<Integer> page,
