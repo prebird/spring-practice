@@ -17,13 +17,13 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         log.info("-------securityFilterChain-------");
-        http.authorizeRequests()
-                .antMatchers("/").permitAll()
-                .antMatchers("/managers/**").hasRole("MANAGER")
-                .antMatchers("/partners/**").hasRole("PARTNER")
-                .anyRequest().authenticated()
-                .and()
-                .httpBasic();
+//        http.authorizeRequests()
+//                .antMatchers("/").permitAll()
+//                .antMatchers("/managers/**").hasRole("MANAGER")
+//                .antMatchers("/partners/**").hasRole("PARTNER")
+//                .anyRequest().authenticated()
+//                .and()
+//                .httpBasic();
 
         return http.build();
     }
