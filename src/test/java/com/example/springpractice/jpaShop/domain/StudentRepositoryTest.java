@@ -1,6 +1,8 @@
 package com.example.springpractice.jpaShop.domain;
 
+import org.hibernate.Hibernate;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,8 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,11 +20,14 @@ import static org.assertj.core.api.Assertions.*;
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class StudentRepositoryTest {
+    private static final String STUDENT_NOT_FOUND = "해당하는 학생이 없습니다.";
     @Autowired
     private StudentRepository studentRepository;
-
     @Autowired
     private ClassRoomRepository classRoomRepository;
+
+    @PersistenceContext
+    EntityManager em;
 
     List<Student> students;
     Student jinju;
@@ -30,13 +37,9 @@ class StudentRepositoryTest {
     @BeforeEach
     void initData() {
         // 학생
-        jinju = Student.of("김진주", 10);
-        jinju2 = Student.of("김진주", 20);
-        jiyu = Student.of("김지유", 20);
-
-        studentRepository.save(jinju);
-        studentRepository.save(jinju2);
-        studentRepository.save(jiyu);
+        jinju = studentRepository.save(Student.of("김진주", 10));
+        jinju2 = studentRepository.save(Student.of("김진주", 20));
+        jiyu = studentRepository.save(Student.of("김지유", 20));
 
         // 반
         ClassRoom java = ClassRoom.of("자바반");
@@ -50,6 +53,7 @@ class StudentRepositoryTest {
         jiyu.setClassRoom(java);
 
         students = List.of(jinju, jinju2, jiyu);
+        em.flush();
     }
 
     @Test
@@ -108,6 +112,38 @@ class StudentRepositoryTest {
         assertThat(list).hasSize(3);
         assertThat(list).usingRecursiveComparison()
                 .isEqualTo(students);
+    }
+
+    @Test
+    @DisplayName("지연로딩 확인")
+    void lazyLoadingCheck() {
+        em.clear();
+
+        Student student = studentRepository.findById(jinju.getId())
+                .orElseThrow(() -> new IllegalArgumentException(STUDENT_NOT_FOUND));
+        boolean initialized = Hibernate.isInitialized(student.getClassRoom());
+
+        assertThat(initialized).isFalse();
+    }
+
+    @Test
+    @DisplayName("fetch join를 이용해서 즉시 로딩 테스트")
+    void findWithFetchById() {
+        Student student = studentRepository.findWithFetchById(jinju.getId())
+                .orElseThrow(() -> new IllegalArgumentException(STUDENT_NOT_FOUND));
+        boolean initialized = Hibernate.isInitialized(student.getClassRoom());
+
+        assertThat(initialized).isTrue();
+    }
+
+    @Test
+    @DisplayName("EntityGraph로 fetch join 대신해서 즉시로딩")
+    void findById_EntityGraph() {
+        Student student = studentRepository.findWithEntityGraphById(jinju.getId())
+                .orElseThrow(() -> new IllegalArgumentException(STUDENT_NOT_FOUND));
+        boolean initialized = Hibernate.isInitialized(student.getClassRoom());
+
+        assertThat(initialized).isTrue();
     }
 
     @Test
