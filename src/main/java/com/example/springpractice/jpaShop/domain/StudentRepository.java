@@ -9,9 +9,10 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Optional;
-
 
 public interface StudentRepository extends JpaRepository<Student, Long> {
 
@@ -46,7 +47,7 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
      * @param newClassId
      * @return
      */
-    @Modifying
+    @Modifying(clearAutomatically = true)
     @Query("update Student s set s.classRoom.id = :newClassId where s.id in :idList")
     Integer updateClassByIdList(List<Long> idList, Long newClassId);
 }
