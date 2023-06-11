@@ -5,6 +5,7 @@ import com.example.springpractice.jpaShop.domain.StudentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,5 +43,37 @@ public class StudentController {
             @RequestParam Optional<Integer> page,
             @RequestParam Optional<Sort.Direction> sortType) {
         return ResponseEntity.ok(studentService.getByAge(age, page, sortType));
+    }
+
+    /**
+     * 나이로 학생 조회, Slice 반환
+     * http://localhost:8080/students/slice?age=10&page=1&sortType=DESC
+     * @param age
+     * @param page
+     * @param sortType
+     * @return
+     */
+    @GetMapping("/slice")
+    public ResponseEntity<Slice<StudentDto>> searchByAgeSlice(
+            @RequestParam Integer age,
+            @RequestParam Optional<Integer> page,
+            @RequestParam Optional<Sort.Direction> sortType) {
+        return ResponseEntity.ok(studentService.getByAgeSlice(age, page, sortType));
+    }
+
+    /**
+     * 나이로 학생 조회, CountQuery 추가
+     * http://localhost:8080/students/countQuery?age=10&page=0&sortType=DESC
+     * @param age
+     * @param page
+     * @param sortType
+     * @return
+     */
+    @GetMapping("/countQuery")
+    public ResponseEntity<Page<StudentDto>> searchByAgeCountQuery(
+            @RequestParam Integer age,
+            @RequestParam Optional<Integer> page,
+            @RequestParam Optional<Sort.Direction> sortType) {
+        return ResponseEntity.ok(studentService.getByAgeCountQuery(age, page, sortType));
     }
 }
