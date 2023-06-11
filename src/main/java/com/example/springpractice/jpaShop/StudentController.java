@@ -2,16 +2,14 @@ package com.example.springpractice.jpaShop;
 
 import com.example.springpractice.jpaShop.domain.StudentDto;
 import com.example.springpractice.jpaShop.domain.StudentService;
+import com.example.springpractice.jpaShop.dto.UpdateIdListRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -75,5 +73,20 @@ public class StudentController {
             @RequestParam Optional<Integer> page,
             @RequestParam Optional<Sort.Direction> sortType) {
         return ResponseEntity.ok(studentService.getByAgeCountQuery(age, page, sortType));
+    }
+
+    /**
+     * 학생들의 반을 일괄 변경함 (벌크 수정 쿼리)
+     * {
+     *   "idList": [1, 2, 3],
+     *   "className" : "자바반"
+     * }
+     * @param request
+     * @return
+     */
+    @PostMapping(value = "/updateClassByIdList", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> updateClassByIdList(@RequestBody UpdateIdListRequest request) {
+        studentService.updateClassByIdList(request.getIdList(), request.getClassName());
+        return ResponseEntity.ok().build();
     }
 }

@@ -5,6 +5,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -37,4 +38,15 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
     @Query(value = "select s from Student s join s.classRoom c where s.age = :age",
     countQuery = "select count(s) from Student s where s.age = :age")
     Page<Student> findWithCountQueryByAge(Integer age, PageRequest pageRequest);
+
+    /**
+     * 학생들의 반을 일괄 수정
+     * update 문 작성 시, @Modifying 필수
+     * @param idList
+     * @param newClassId
+     * @return
+     */
+    @Modifying
+    @Query("update Student s set s.classRoom.id = :newClassId where s.id in :idList")
+    Integer updateClassByIdList(List<Long> idList, Long newClassId);
 }

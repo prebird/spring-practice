@@ -3,6 +3,7 @@ package com.example.springpractice.jpaShop.domain;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,9 +13,11 @@ import static org.springframework.data.domain.Sort.*;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class StudentService {
     private static final int SIZE_PER_PAGE = 3;
     private final StudentRepository studentRepository;
+    private final ClassRoomRepository classRoomRepository;
 
     public List<StudentDto> getAll() {
         return studentRepository.findAll().stream().map(StudentDto::from).collect(Collectors.toList());
@@ -42,5 +45,12 @@ public class StudentService {
         PageRequest pageRequest = PageRequest.of(page, SIZE_PER_PAGE, sortType, "name");
 
         return studentRepository.findWithCountQueryByAge(age, pageRequest).map(StudentDto::from);
+    }
+
+    public void updateClassByIdList(List<Long> idList, String newClassName) {
+        ClassRoom newClass = classRoomRepository.findByName(newClassName)
+                .orElseThrow(() -> new IllegalArgumentException("반을 찾을 수 없습니다."));
+
+        studentRepository.updateClassByIdList(idList, newClass.getId());
     }
 }
