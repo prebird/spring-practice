@@ -31,10 +31,16 @@ public class InitJpaData implements ApplicationListener<ContextRefreshedEvent> {
             Student jinju = Student.of("김진주", 10);
             Student jinju2 = Student.of("김진주", 20);
             Student jiyu = Student.of("김지유", 20);
+            Student semi = Student.of("박세미", 10);
+            Student hei = Student.of("최희령", 10);
+            Student young = Student.of("김영희", 10);
 
             studentRepository.save(jinju);
             studentRepository.save(jinju2);
             studentRepository.save(jiyu);
+            studentRepository.save(semi);
+            studentRepository.save(hei);
+            studentRepository.save(young);
 
             // 반
             ClassRoom java = ClassRoom.of("자바반");
@@ -46,6 +52,9 @@ public class InitJpaData implements ApplicationListener<ContextRefreshedEvent> {
             jinju.setClassRoom(java);
             jinju2.setClassRoom(design);
             jiyu.setClassRoom(java);
+            semi.setClassRoom(java);
+            hei.setClassRoom(design);
+            young.setClassRoom(java);
         }
     }
 }
