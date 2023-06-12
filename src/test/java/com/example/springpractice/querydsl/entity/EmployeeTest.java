@@ -13,6 +13,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import javax.persistence.EntityManager;
 import java.util.List;
 
+import static com.example.springpractice.querydsl.entity.QEmployee.*;
 import static org.assertj.core.api.Assertions.*;
 
 @DataJpaTest
@@ -49,12 +50,12 @@ class EmployeeTest {
         Employee ddang = testEm.persistAndFlush(Employee.of("땡희"));
 
         // when
-        QEmployee e = new QEmployee("e");
+        //QEmployee e = new QEmployee("e"); // static import 방식으로 변경
 
         Employee result = queryFactory
-                .select(e)
-                .from(e)
-                .where(e.name.eq("땡희"))     // 파라메터 바인딩
+                .select(employee)
+                .from(employee)
+                .where(employee.name.eq("땡희"))     // 파라메터 바인딩
                 .fetchOne();
 
         assertThat(result).usingRecursiveComparison().isEqualTo(ddang);
