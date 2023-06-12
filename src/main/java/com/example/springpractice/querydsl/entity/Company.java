@@ -24,4 +24,8 @@ public class Company {
     public Company(String name) {
         this.name = name;
     }
+
+    public static Company of(String name) {
+        return new Company(name);
+    }
 }

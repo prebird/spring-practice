@@ -29,6 +29,18 @@ public class Employee {
         }
     }
 
+    public static Employee of(String name, Integer age, Company company) {
+        return new Employee(name, age, company);
+    }
+
+    public static Employee of(String name, Integer age) {
+        return new Employee(name, age, null);
+    }
+
+    public static Employee of(String name) {
+        return new Employee(name, null, null);
+    }
+
     private void changeCompany(Company company) {
         this.company = company;
         company.getEmployees().add(this);
