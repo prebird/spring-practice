@@ -3,6 +3,7 @@ package com.example.springpractice.querydsl.entity;
 import com.example.springpractice.security.member.QMember;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -19,9 +20,15 @@ import static org.assertj.core.api.Assertions.*;
 class EmployeeTest {
     @Autowired
     TestEntityManager testEm;
-
     @Autowired
     EntityManager em;
+
+    JPAQueryFactory queryFactory;
+
+    @BeforeEach
+    void init() {
+        queryFactory = new JPAQueryFactory(em);
+    }
 
     @Test
     void entity_select_test() {
@@ -42,7 +49,6 @@ class EmployeeTest {
         Employee ddang = testEm.persistAndFlush(Employee.of("땡희"));
 
         // when
-        JPAQueryFactory queryFactory = new JPAQueryFactory(em);
         QEmployee e = new QEmployee("e");
 
         Employee result = queryFactory
