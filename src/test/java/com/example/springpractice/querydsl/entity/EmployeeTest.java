@@ -75,4 +75,12 @@ class EmployeeTest {
 
         assertThat(result).usingRecursiveComparison().isEqualTo(ddang);
     }
+
+    @Test
+    void 리스트_조회() {
+        List<Employee> result = queryFactory
+                .selectFrom(employee)
+                .fetch();
+        assertThat(result).hasSize(4);
+    }
 }
