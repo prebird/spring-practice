@@ -26,15 +26,31 @@ class EmployeeTest {
 
     JPAQueryFactory queryFactory;
 
+    // 테스트 데이터
+    Employee jiyu;
+    Employee jinju;
+    Employee hee;
+    Employee ddang;
+    Company whiteHorse;
+    Company heeSters;
+
     @BeforeEach
     void init() {
+        // querydsl factory
         queryFactory = new JPAQueryFactory(em);
+
+        // 테스트 데이터
+        whiteHorse = testEm.persistAndFlush(Company.of("백마티비"));
+        heeSters = testEm.persistAndFlush(Company.of("희스터즈"));
+
+        jiyu = testEm.persistAndFlush(Employee.of("김지유", 10, whiteHorse));
+        jinju = testEm.persistAndFlush(Employee.of("김진주", 20, whiteHorse));
+        hee = testEm.persistAndFlush(Employee.of("최희령", 25, heeSters));
+        ddang = testEm.persistAndFlush(Employee.of("땡희", 30, heeSters));
     }
 
     @Test
     void entity_select_test() {
-        Employee ddang = testEm.persistAndFlush(Employee.of("땡희"));
-
         String jpql =
                 "select e from Employee e " +
                 "where e.name = :name";
@@ -48,7 +64,6 @@ class EmployeeTest {
     @Test
     void entity_select_querydsl() {
         Employee ddang = testEm.persistAndFlush(Employee.of("땡희"));
-
         // when
         //QEmployee e = new QEmployee("e"); // static import 방식으로 변경
 

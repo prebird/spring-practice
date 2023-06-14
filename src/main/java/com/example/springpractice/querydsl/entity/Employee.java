@@ -41,7 +41,7 @@ public class Employee {
         return new Employee(name, null, null);
     }
 
-    private void changeCompany(Company company) {
+    public void changeCompany(Company company) {
         this.company = company;
         company.getEmployees().add(this);
     }
