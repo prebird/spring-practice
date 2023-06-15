@@ -1,6 +1,8 @@
 package com.example.springpractice.querydsl.entity;
 
 import com.example.springpractice.security.member.QMember;
+import com.querydsl.core.QueryResults;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -83,4 +85,51 @@ class EmployeeTest {
                 .fetch();
         assertThat(result).hasSize(4);
     }
+
+    @Test
+    void 조건_여러개_검색() {
+        Employee result = queryFactory
+                .selectFrom(employee)
+                .where(employee.name.like("%희%"),
+                        employee.age.eq(30))
+                .fetchOne();
+
+        assertThat(result).isEqualTo(ddang);
+    }
+
+    @Test
+    void 결과_반환_메서드() {
+        // 리스트
+        List<Employee> resultList = queryFactory
+                .selectFrom(employee)
+                .where(employee.name.eq("땡희"))
+                .fetch();
+
+        // 단건
+        List<Employee> resultOne = queryFactory
+                .selectFrom(employee)
+                .where(employee.name.eq("땡희"))
+                .fetch();
+
+        // fetchFirst() : limit(1).fetchOne()
+        Employee resultFirst = queryFactory
+                .selectFrom(employee)
+                .where(employee.name.eq("땡희"))
+                .fetchFirst();
+
+        // fetchResults() : 페이징 포함
+        QueryResults<Employee> pageResult = queryFactory
+                .selectFrom(employee)
+                .where(employee.name.eq("땡희"))
+                .fetchResults(); // deprecated..
+
+        // fetchCount() : count 쿼리
+        long count = queryFactory
+                .selectFrom(employee)
+                .where(employee.name.eq("땡희"))
+                .fetchCount();
+                    // deprecated
+    }
+
+    
 }
