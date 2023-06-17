@@ -2,9 +2,11 @@ package com.example.springpractice.querydsl.entity;
 
 import com.example.springpractice.querydsl.dto.EmployeeDto;
 import com.example.springpractice.security.member.QMember;
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.assertj.core.api.Assertions;
@@ -49,9 +51,9 @@ class EmployeeTest {
     whiteHorse = testEm.persistAndFlush(Company.of("백마티비"));
     heeSters = testEm.persistAndFlush(Company.of("희스터즈"));
 
-    jiyu = testEm.persistAndFlush(Employee.of("김지유", 10, whiteHorse));
-    jinju = testEm.persistAndFlush(Employee.of("김진주", 20, whiteHorse));
-    hee = testEm.persistAndFlush(Employee.of("최희령", 25, heeSters));
+    jiyu = testEm.persistAndFlush(Employee.of("김지유", 24, whiteHorse));
+    jinju = testEm.persistAndFlush(Employee.of("김진주", 30, whiteHorse));
+    hee = testEm.persistAndFlush(Employee.of("최희령", 30, heeSters));
     ddang = testEm.persistAndFlush(Employee.of("땡희", 30, heeSters));
   }
 
@@ -177,5 +179,74 @@ class EmployeeTest {
     assertThat(dto.getCompanyName()).isEqualTo("희스터즈");
   }
 
+  @Test
+  void 동적쿼리_BooleanBuilder_all() {
+      String usernameParam = "땡희";
+      Integer ageParam = 30;
 
+      List<Employee> result = searchEmployee1(usernameParam, ageParam);
+
+      assertThat(result).hasSize(1);
+  }
+
+  @Test
+  void 동적쿼리_BooleanBuilder_onlyAge() {
+    String empNameParam = null;
+    Integer ageParam = 30;
+
+    List<Employee> result = searchEmployee1(empNameParam, ageParam);
+
+    assertThat(result).hasSize(3);
+  }
+
+  private List<Employee> searchEmployee1(String empNameCond, Integer ageCond) {
+      BooleanBuilder booleanBuilder = new BooleanBuilder();
+
+      if (empNameCond != null) {
+        booleanBuilder.and(employee.name.like(empNameCond));
+      }
+      if (ageCond != null) {
+        booleanBuilder.and(employee.age.eq(ageCond));
+      }
+    return queryFactory
+        .selectFrom(employee)
+        .where(booleanBuilder)
+        .fetch();
+  }
+
+  @Test
+  void 동적쿼리_where_all() {
+    String empNameParam = "땡희";
+    Integer ageParam = 30;
+
+    List<Employee> result = searchEmployee2(empNameParam, ageParam);
+
+    assertThat(result).hasSize(1);
+  }
+
+  @Test
+  void 동적쿼리_where_onlyAge() {
+    String empNameParam = null;
+    Integer ageParam = 30;
+
+    List<Employee> result = searchEmployee2(empNameParam, ageParam);
+
+    assertThat(result).hasSize(3);
+  }
+
+  private List<Employee> searchEmployee2(String usernameCond, Integer ageCond) {
+
+    return queryFactory
+        .selectFrom(employee)
+        .where(usernameEq(usernameCond), ageEq(ageCond))
+        .fetch();
+  }
+
+  private BooleanExpression usernameEq(String empNameCond) {
+    return empNameCond != null ? employee.name.eq(empNameCond) : null;
+  }
+
+  private BooleanExpression ageEq(Integer ageCond) {
+    return ageCond != null ? employee.age.eq(ageCond) : null;
+  }
 }
