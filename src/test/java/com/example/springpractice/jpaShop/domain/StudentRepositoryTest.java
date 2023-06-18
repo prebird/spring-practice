@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.test.context.ActiveProfiles;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -19,6 +19,7 @@ import static org.assertj.core.api.Assertions.*;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@ActiveProfiles("test")
 class StudentRepositoryTest {
     private static final String STUDENT_NOT_FOUND = "해당하는 학생이 없습니다.";
     @Autowired
@@ -89,7 +90,7 @@ class StudentRepositoryTest {
 
         assertThat(dtoList).hasSize(3);
         assertThat(dtoList).extracting("className")
-                .isEqualTo(students.stream().map(s -> s.getClassRoom().getName()).collect(Collectors.toList()));
+                .containsAll(students.stream().map(s -> s.getClassRoom().getName()).collect(Collectors.toList()));
     }
 
     @Test

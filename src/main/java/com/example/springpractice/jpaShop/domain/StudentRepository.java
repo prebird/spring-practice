@@ -10,8 +10,6 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,7 +29,7 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
     List<Student> findByStudentName(@Param("studentName") String studentName);
 
     @Query("select s from Student s where s.name in :names")
-    List<Student> findByStudentNames(List<String> names);
+    List<Student> findByStudentNames(@Param("names") List<String> names);
 
     Page<Student> findByAge(int age, Pageable pageable);
 
@@ -53,7 +51,7 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
     Integer updateClassByIdList(List<Long> idList, Long newClassId);
 
     @Query("select s from Student s left join fetch s.classRoom where s.id = :id")
-    Optional<Student> findWithFetchById(Long id);
+    Optional<Student> findWithFetchById(@Param("id") Long id);
 
     @EntityGraph(attributePaths = {"classRoom"})
     Optional<Student> findWithEntityGraphById(Long id);
