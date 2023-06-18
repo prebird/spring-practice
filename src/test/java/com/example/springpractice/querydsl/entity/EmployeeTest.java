@@ -1,15 +1,12 @@
 package com.example.springpractice.querydsl.entity;
 
 import com.example.springpractice.querydsl.dto.EmployeeDto;
-import com.example.springpractice.security.member.QMember;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +16,14 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
 import javax.persistence.EntityManager;
 import java.util.List;
+import org.springframework.test.context.ActiveProfiles;
 
 import static com.example.springpractice.querydsl.entity.QEmployee.*;
 import static org.assertj.core.api.Assertions.*;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@ActiveProfiles("test")
 class EmployeeTest {
 
   @Autowired
@@ -71,7 +70,6 @@ class EmployeeTest {
 
   @Test
   void entity_select_querydsl() {
-    Employee ddang = testEm.persistAndFlush(Employee.of("땡희"));
     // when
     //QEmployee e = new QEmployee("e"); // static import 방식으로 변경
 
@@ -94,13 +92,14 @@ class EmployeeTest {
 
   @Test
   void 조건_여러개_검색() {
-    Employee result = queryFactory
+    List<Employee> result = queryFactory
         .selectFrom(employee)
         .where(employee.name.like("%희%"),
             employee.age.eq(30))
-        .fetchOne();
+        .fetch();
 
-    assertThat(result).isEqualTo(ddang);
+    assertThat(result).contains(ddang);
+    assertThat(result).contains(hee);
   }
 
   @Test
