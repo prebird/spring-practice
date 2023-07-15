@@ -199,14 +199,15 @@ class EmployeeTest {
   }
 
   private List<Employee> searchEmployee1(String empNameCond, Integer ageCond) {
-      BooleanBuilder booleanBuilder = new BooleanBuilder();
 
-      if (empNameCond != null) {
-        booleanBuilder.and(employee.name.like(empNameCond));
-      }
-      if (ageCond != null) {
-        booleanBuilder.and(employee.age.eq(ageCond));
-      }
+    BooleanBuilder booleanBuilder = new BooleanBuilder();
+
+    if (empNameCond != null) {
+      booleanBuilder.and(employee.name.like(empNameCond));
+    }
+    if (ageCond != null) {
+      booleanBuilder.and(employee.age.eq(ageCond));
+    }
     return queryFactory
         .selectFrom(employee)
         .where(booleanBuilder)

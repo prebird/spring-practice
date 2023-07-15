@@ -21,7 +21,7 @@ public class ClassRoom {
     private String name;
 
     @Builder.Default
-    @OneToMany(mappedBy = "classRoom")
+    @OneToMany
     private List<Student> students = new ArrayList<>();
 
     public void addStudent(Student student) {
