@@ -13,12 +13,16 @@ import lombok.RequiredArgsConstructor;
 @Builder
 public class ErrorResponse {
   private final String errorCode;
+  private final String description;
   private final LocalDateTime dateTime;
   private final UUID logId;
 
   public static ErrorResponse of(UUID logId, Exception exception) {
+    ErrorCode errorcode = ErrorCode.findCode(exception.getMessage());
+
     return ErrorResponse.builder()
-        .errorCode(exception.getMessage())
+        .errorCode(errorcode.getCode())
+        .description(errorcode.getDescription())
         .dateTime(LocalDateTime.now())
         .logId(logId)
         .build();
