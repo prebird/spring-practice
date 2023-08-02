@@ -1,4 +1,4 @@
-package com.example.springpractice.jpaShop.domain;
+package com.example.springpractice.jpaShop.relation.domain;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,7 +21,7 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
     @Query("select s.name from Student s")
     List<String> findStudentNameList();
 
-    @Query("select new com.example.springpractice.jpaShop.domain.StudentDto(s.id, s.name, s.age, c.name) " +
+    @Query("select new com.example.springpractice.jpaShop.relation.domain.StudentDto(s.id, s.name, s.age, c.name) " +
             "from Student s join s.classRoom c")
     List<StudentDto> findStudentDto();
 

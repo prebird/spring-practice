@@ -1,4 +1,4 @@
-package com.example.springpractice.jpaShop.dto;
+package com.example.springpractice.jpaShop.relation.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

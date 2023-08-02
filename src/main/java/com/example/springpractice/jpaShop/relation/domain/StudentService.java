@@ -1,4 +1,4 @@
-package com.example.springpractice.jpaShop.domain;
+package com.example.springpractice.jpaShop.relation.domain;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
@@ -7,7 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static org.springframework.data.domain.Sort.*;
 

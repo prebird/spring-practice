@@ -1,8 +1,12 @@
-package com.example.springpractice.jpaShop.domain;
+package com.example.springpractice.jpaShop.relation.domain.relation;
 
+import com.example.springpractice.jpaShop.relation.domain.ClassRoom;
+import com.example.springpractice.jpaShop.relation.domain.ClassRoomRepository;
+import com.example.springpractice.jpaShop.relation.domain.Student;
+import com.example.springpractice.jpaShop.relation.domain.StudentDto;
+import com.example.springpractice.jpaShop.relation.domain.StudentRepository;
 import org.hibernate.Hibernate;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

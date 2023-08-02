@@ -1,4 +1,4 @@
-package com.example.springpractice.jpaShop.domain;
+package com.example.springpractice.jpaShop.relation.domain;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

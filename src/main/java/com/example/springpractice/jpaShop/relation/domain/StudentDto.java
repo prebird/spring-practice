@@ -1,4 +1,4 @@
-package com.example.springpractice.jpaShop.domain;
+package com.example.springpractice.jpaShop.relation.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,6 +1,6 @@
-package com.example.springpractice.jpaShop;
+package com.example.springpractice.jpaShop.relation;
 
-import com.example.springpractice.jpaShop.domain.*;
+import com.example.springpractice.jpaShop.relation.domain.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;

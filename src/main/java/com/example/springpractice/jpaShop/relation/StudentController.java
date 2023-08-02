@@ -1,8 +1,8 @@
-package com.example.springpractice.jpaShop;
+package com.example.springpractice.jpaShop.relation;
 
-import com.example.springpractice.jpaShop.domain.StudentDto;
-import com.example.springpractice.jpaShop.domain.StudentService;
-import com.example.springpractice.jpaShop.dto.UpdateIdListRequest;
+import com.example.springpractice.jpaShop.relation.domain.StudentDto;
+import com.example.springpractice.jpaShop.relation.domain.StudentService;
+import com.example.springpractice.jpaShop.relation.dto.UpdateIdListRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,7 +13,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
