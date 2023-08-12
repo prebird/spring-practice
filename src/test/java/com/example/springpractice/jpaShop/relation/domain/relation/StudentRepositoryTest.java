@@ -53,9 +53,12 @@ class StudentRepositoryTest {
         classRoomRepository.save(design);
 
         // 학생에 반 정보 매핑
-        jinju.setClassRoom(java);
-        jinju2.setClassRoom(design);
-        jiyu.setClassRoom(java);
+        jinju.changeClassRoom(java);
+        jinju2.changeClassRoom(design);
+        jiyu.changeClassRoom(java);
+        studentRepository.save(jinju);
+        studentRepository.save(jinju2);
+        studentRepository.save(jiyu);
 
         students = List.of(jinju, jinju2, jiyu);
         em.flush();
@@ -159,5 +162,13 @@ class StudentRepositoryTest {
 
         boolean initialized = Hibernate.isInitialized(javaClass.getStudents());
         assertThat(initialized).isFalse();
+    }
+
+    @Test
+    void lazyLoadingSize() {
+        ClassRoom javaClass = classRoomRepository.findById(java.getId())
+            .orElseThrow(() -> new RuntimeException("test fail"));
+
+        assertThat(javaClass.getStudents()).hasSize(2);
     }
 }

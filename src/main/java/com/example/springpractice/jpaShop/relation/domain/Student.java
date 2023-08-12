@@ -38,7 +38,7 @@ public class Student {
      * 연관관계 편의 메서드: 양방향 연관관계인 ClassRoom에 학생을 추가해 줍니다.
      * @param classRoom
      */
-    private void changeClassRoom(ClassRoom classRoom) {
+    public void changeClassRoom(ClassRoom classRoom) {
         this.classRoom = classRoom;
         classRoom.getStudents().add(this);
     }
