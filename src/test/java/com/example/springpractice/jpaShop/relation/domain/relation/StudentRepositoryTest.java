@@ -23,7 +23,6 @@ import static org.assertj.core.api.Assertions.*;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@ActiveProfiles("test")
 class StudentRepositoryTest {
     private static final String STUDENT_NOT_FOUND = "해당하는 학생이 없습니다.";
     @Autowired
@@ -38,6 +37,7 @@ class StudentRepositoryTest {
     Student jinju;
     Student jinju2;
     Student jiyu;
+    ClassRoom java;
 
     @BeforeEach
     void initData() {
@@ -47,7 +47,7 @@ class StudentRepositoryTest {
         jiyu = studentRepository.save(Student.of("김지유", 20));
 
         // 반
-        ClassRoom java = ClassRoom.of("자바반");
+        java = ClassRoom.of("자바반");
         ClassRoom design = ClassRoom.of("디자인반");
         classRoomRepository.save(java);
         classRoomRepository.save(design);
@@ -59,6 +59,7 @@ class StudentRepositoryTest {
 
         students = List.of(jinju, jinju2, jiyu);
         em.flush();
+        em.clear();
     }
 
     @Test
@@ -152,8 +153,11 @@ class StudentRepositoryTest {
     }
 
     @Test
-    @DisplayName("")
-    void template() {
+    void isLazeLoading() {
+        ClassRoom javaClass = classRoomRepository.findById(java.getId())
+            .orElseThrow(() -> new RuntimeException("test fail"));
 
+        boolean initialized = Hibernate.isInitialized(javaClass.getStudents());
+        assertThat(initialized).isFalse();
     }
 }
