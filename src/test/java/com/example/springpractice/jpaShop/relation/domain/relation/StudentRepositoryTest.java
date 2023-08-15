@@ -161,7 +161,7 @@ class StudentRepositoryTest {
             .orElseThrow(() -> new RuntimeException("test fail"));
 
         boolean initialized = Hibernate.isInitialized(javaClass.getStudents());
-        assertThat(initialized).isFalse();
+        assertThat(initialized).isFalse();  // 프록시 객체
     }
 
     @Test
@@ -169,6 +169,21 @@ class StudentRepositoryTest {
         ClassRoom javaClass = classRoomRepository.findById(java.getId())
             .orElseThrow(() -> new RuntimeException("test fail"));
 
-        assertThat(javaClass.getStudents()).hasSize(2);
+        int studentCount = javaClass.getStudents().size();  // 지연 로딩 객체 조회
+
+        boolean initialized = Hibernate.isInitialized(javaClass.getStudents());
+        assertThat(initialized).isTrue();       // 실제 객체
+        assertThat(studentCount).isEqualTo(2);
+    }
+
+    @Test
+    void lazyLoadingOne() {
+        ClassRoom javaClass = classRoomRepository.findById(java.getId())
+            .orElseThrow(() -> new RuntimeException("test fail"));
+
+        Student student = javaClass.getStudents().get(0);// 지연 로딩 객체 조회
+
+        boolean initialized = Hibernate.isInitialized(javaClass.getStudents());
+        assertThat(initialized).isTrue();       // 실제 객체
     }
 }
